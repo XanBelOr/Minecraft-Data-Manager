@@ -23,7 +23,7 @@ function data_manager:write
 ```
 
 ## Other features
-This library will automatically filter through non-entity storages and clean them up if the entity no longer exists to avoid clutter. Also, calling `read` or `write`
+This library will automatically filter through non-player storages and clean them up if the entity no longer exists to avoid clutter. Also, calling `read` or `write`
 for an entity that has not yet been initialized with the system will automatically initialize it and create an entry for it.
 
 ## Credit
