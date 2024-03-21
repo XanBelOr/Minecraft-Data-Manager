@@ -11,9 +11,10 @@ To **read** data, use `function data_manager:read`. This will put all the entity
 To **write** data to an entity's storage, use `function data_manager:write`. This will copy the `data:manager custom_data` to your entity's storage location.
 
 ## Notice
-The `write` function completely replaces the entity's storage, so it it is HIGHLY recommended you use `read` and modify that before you `write` back to storage unless you want to completely erase everything else in the storage.
+The `write` function completely replaces the entity's storage with the `data:manager custom_data` storage, so it is always required that you use `read` and modify that before you `write` back to storage unless you want to completely erase everything else in the storage.
+Also, not reading can cause unwanted data from another entity to be copied into your entity.
 
-## Exanple
+## Example
 ```
 function data_manager:read
 
