@@ -2,7 +2,7 @@
 This is a simple and lightweight datapack which makes it easy to have custom data saved per-entity using data storages.
 
 # Usage
-Usage is simple. All data will be passed through the `data:manager custom_data` storage.
+Usage is simple. All data is passed through the `data:manager custom_data` storage.
 
 To **read** data, use `function data_manager:read`. This will put all the entity's arbitrary data into the `data:manager custom_data` storage.
 
