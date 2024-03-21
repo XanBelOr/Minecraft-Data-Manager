@@ -4,6 +4,8 @@ This is a simple and lightweight datapack which makes it easy to have custom dat
 # Usage
 Usage is simple. All data is passed through the `data:manager custom_data` storage.
 
+First, make sure you use `function data_manager:load` in your datapack's load function.
+
 To **read** data, use `function data_manager:read`. This will put all the entity's arbitrary data into the `data:manager custom_data` storage.
 
 To **write** data to an entity's storage, use `function data_manager:write`. This will copy the `data:manager custom_data` to your entity's storage location.
