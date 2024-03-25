@@ -1,5 +1,5 @@
 data modify storage data:manager custom_data set value {}
-execute unless entity @s[tag=c.has_entry] run function data_manager:new_entry
+execute unless score @s c.has_custom_data matches 1 run function data_manager:new_entry
 execute store result storage central:temp intuuid.0 int 1 run scoreboard players get @s gu.UUID0
 execute store result storage central:temp intuuid.1 int 1 run scoreboard players get @s gu.UUID1
 execute store result storage central:temp intuuid.2 int 1 run scoreboard players get @s gu.UUID2
