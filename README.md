@@ -10,17 +10,36 @@ To **read** data, use `function data_manager:read`. This will put all the entity
 
 To **write** data to an entity's storage, use `function data_manager:write`. This will copy the `data:manager custom_data` to your entity's storage location.
 
+## Partial Storage Access
+A new feature has been added with performance in mind. If an entity has several paths of data stored, copying the full data storage each time to access data can
+be performance intensive. To address this, you can now use the `read_partial` and `write_partial` functions to directly target a specific path, only
+copying over the path you specified and eliminating any other unnecessary data being copied over and consuming performance. 
+Specify the `path` argument in a macro with your desired path: `{path:"some.path"}`.
+
 ## Notice
 The `write` function completely replaces the entity's storage with the `data:manager custom_data` storage, so it is always required that you use `read` and modify that before you `write` back to storage unless you want to completely erase everything else in the storage.
 Also, not reading can cause unwanted data from another entity to be copied into your entity.
 
-## Example
+## Examples
+
+**Full Storage Access**
 ```
 function data_manager:read
 
 data modify storage data:manager custom_data.laser_eyes set value "disabled"
 
+data modify storage data:manager custom_data.hero_name set value "Superman"
+
 function data_manager:write
+```
+
+**Partial Storage Access**
+```
+function data_manager:read_partial {path:laser_eyes}
+
+data modify storage data:manager custom_data.laser_eyes set value "enabled"
+
+function data_manager:write_partial {path:laser_eyes}
 ```
 
 ## Other features
