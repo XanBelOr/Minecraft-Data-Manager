@@ -16,6 +16,8 @@ be performance intensive. To address this, you can now use the `read_partial` an
 copying over the path you specified and eliminating any other unnecessary data being copied over and consuming performance. 
 Specify the `path` argument in a macro with your desired path: `{path:"some.path"}`.
 
+Additional note: It is almost always recommended you use partial storage access. In most cases, you're just accessing one piece of the storage, and copying over the rest would add unnecessary overhead.
+
 ## Notice
 The `write` function completely replaces the entity's storage with the `data:manager custom_data` storage, so it is always required that you use `read` and modify that before you `write` back to storage unless you want to completely erase everything else in the storage.
 Also, not reading can cause unwanted data from another entity to be copied into your entity.
