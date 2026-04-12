@@ -48,5 +48,50 @@ function data_manager:write_partial {path:laser_eyes}
 This library will automatically filter through non-player storages and clean them up if the entity no longer exists to avoid clutter. Also, calling `read` or `write`
 for an entity that has not yet been initialized with the system will automatically initialize it and create an entry for it.
 
+## Upgrading from v1.x to v2.0
+
+v2.0 changes the internal storage structure from a flat NBT list to compound keys. This is a **major performance improvement** — see the section below for details.
+
+**If you have an existing world with entity data stored by v1.x**, run the following command once after updating to migrate your data:
+```
+/function data_manager:migrate_to_compound
+```
+This copies all entries from the old list format into the new compound key format. The old list is preserved as an index for cleanup but is no longer used for lookups.
+
+**No changes to the public API are required.** `read`, `write`, `read_partial`, and `write_partial` all work identically — the change is entirely internal.
+
+**If your datapack accesses `central:entity data[{intuuid:...}]` directly** (bypassing the data_manager API), you must update those paths to `central:entity entries."<intuuid>"`. For example:
+```
+# Old (v1.x) — O(n) list scan:
+$function my_pack:something with storage central:entity data[{intuuid:$(0)$(1)$(2)$(3)}].custom_data.my_data
+
+# New (v2.0) — O(1) compound lookup:
+$function my_pack:something with storage central:entity entries."$(0)$(1)$(2)$(3)".custom_data.my_data
+```
+
+## Performance: O(1) Compound Key Lookups (v2.0)
+
+In v1.x, all entity data was stored in a flat NBT list:
+```
+central:entity data = [
+  {intuuid: "...", custom_data: {...}},
+  {intuuid: "...", custom_data: {...}},
+  ...
+]
+```
+Every `read` or `write` operation searched this list by compound match (`data[{intuuid:"..."}]`), which is a **linear scan** — Minecraft iterates through every single entry in the list until it finds the matching UUID. With 1 entity this is instant. With 100+ entities, every single read/write has to scan through all 100+ entries, and if you're doing multiple reads per tick, you get **O(n²) behavior** that destroys performance.
+
+In v2.0, entity data is stored as named compound keys:
+```
+central:entity entries = {
+  "<intuuid_1>": {custom_data: {...}},
+  "<intuuid_2>": {custom_data: {...}},
+  ...
+}
+```
+Compound tag key lookups in Minecraft are **hash-based (O(1))** — the game jumps directly to the matching key regardless of how many entries exist. This eliminates the scaling problem entirely.
+
+The old `data[]` list is still maintained as a lightweight index for the tick-based cleanup system that removes data for dead entities, but it is never searched by compound match anymore.
+
 ## Credit
 This library has the **[gu](https://github.com/gibbsly/gu)** library built in.

@@ -5,6 +5,11 @@ execute store result storage central:temp intuuid.1 int 1 run scoreboard players
 execute store result storage central:temp intuuid.2 int 1 run scoreboard players get @s gu.UUID2
 execute store result storage central:temp intuuid.3 int 1 run scoreboard players get @s gu.UUID3
 function data_manager:combine_uuid with storage central:temp intuuid
+
+# Store as compound key (O(1) lookup) instead of list append (O(n) scan)
+function data_manager:new_entry_store with storage central:temp intuuid
+
+# Also add to index list for cleanup iteration
 execute unless entity @s[type=player] unless entity @s[tag=c.has_entry] run data modify storage central:entity data append from storage central:temp entry
 execute if entity @s[type=player,tag=!c.has_entry] run data modify storage central:player data append from storage central:temp entry
 tag @s add c.has_entry
