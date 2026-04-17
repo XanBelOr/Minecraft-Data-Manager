@@ -9,9 +9,11 @@ scoreboard players add .temp_counter dm.global 1
 execute unless score .temp_counter dm.global matches 1..2147483647 run scoreboard players set .temp_counter dm.global 1
 scoreboard players operation @s dm.id = .temp_counter dm.global
 
-# Populate dm:args.id for immediate use
+# Generate UUID string so cleanup can check entity existence even in unloaded chunks
+function data_manager:gu/generate
+data modify storage dm:args uuid set from storage gu:main out
 execute store result storage dm:args id int 1 run scoreboard players get @s dm.id
 
-# Create empty entry + add to cleanup index
+# Create entry (stores uuid + empty custom_data) + add to cleanup index
 function data_manager:internal/init_temp_exec with storage dm:args
 data modify storage dm:db temp_index append from storage dm:args id
