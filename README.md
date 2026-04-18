@@ -83,6 +83,18 @@ function data_manager:write_perm with storage dm:args
 | `data_manager:write_partial_perm` | `id`, `path` |
 | `data_manager:clear_perm` | `id` (must call as `@s` — also removes tag and resets score) |
 
+### Pool-agnostic dispatchers (when `@s` could be either pool)
+For code that runs on an entity of unknown pool type (e.g., debuff logic that applies to players *or* mobs), these dispatchers check the `dm.temp` / `dm.perm` tag on `@s` and forward to the matching pool-specific function. Slightly slower due to the extra tag check, but avoids having to write branching logic at every callsite.
+
+| Function | Args in `dm:args` |
+|---|---|
+| `data_manager:read` | `id` |
+| `data_manager:write` | `id` |
+| `data_manager:read_partial` | `id`, `path` |
+| `data_manager:write_partial` | `id`, `path` |
+
+Temp pool is checked first (with `return run`), so the cost is a single tag check for temp-pool entities and two for perm-pool entities.
+
 ## Pool semantics
 
 ### Temp pool (`dm:db temp`)
