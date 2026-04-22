@@ -19,4 +19,4 @@ scoreboard players operation @s dm.id = .perm_counter dm.global
 function data_manager:gu/generate
 data modify storage dm:args uuid set from storage gu:main out
 execute store result storage dm:args id int 1 run scoreboard players get @s dm.id
-function data_manager:internal/init_perm_with_staged with storage dm:args
+function data_manager:internal/init_with_staged with storage dm:args

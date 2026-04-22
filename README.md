@@ -68,6 +68,13 @@ function data_manager:write with storage dm:args
 | `data_manager:read_partial` | `id`, `path` |
 | `data_manager:write_partial` | `id`, `path` |
 
+### Explicit pool migration
+| Function | Purpose |
+|---|---|
+| `data_manager:migrate_perm_to_temp` | Downgrade `@s` from perm to temp, preserving custom_data. Must be called explicitly — `init_temp` alone will NOT downgrade a perm entity (safety). No-op if `@s` is not in perm. |
+
+(The reverse direction — temp → perm — is handled automatically by `init_perm` if `@s` has the `dm.temp` tag.)
+
 ### Cleanup
 | Function | Purpose |
 |---|---|
