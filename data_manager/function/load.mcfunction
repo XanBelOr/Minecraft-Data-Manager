@@ -1,18 +1,17 @@
-# Data Manager v3.0 — Dual-pool integer ID storage
+# Data Manager v3.1 — Unified pool, positive=temp, negative=perm
 scoreboard objectives add dm.id dummy
 scoreboard objectives add dm.global dummy
 
-# Initialize storage structure
-execute unless data storage dm:db temp run data modify storage dm:db temp set value {}
-execute unless data storage dm:db perm run data modify storage dm:db perm set value {}
+# Unified entry compound + temp cleanup index
+execute unless data storage dm:db entries run data modify storage dm:db entries set value {}
 execute unless data storage dm:db temp_index run data modify storage dm:db temp_index set value []
 
-# Initialize global counters (all under dm.global objective)
+# Counters: temp goes up (positive), perm goes down (negative)
 execute unless score .temp_counter dm.global = .temp_counter dm.global run scoreboard players set .temp_counter dm.global 0
 execute unless score .perm_counter dm.global = .perm_counter dm.global run scoreboard players set .perm_counter dm.global 0
 execute unless score .tick_index dm.global = .tick_index dm.global run scoreboard players set .tick_index dm.global 0
 
-# UUID utility (for perm pool's recovery)
+# UUID utility
 scoreboard objectives add gu.UUID0 dummy
 scoreboard objectives add gu.UUID1 dummy
 scoreboard objectives add gu.UUID2 dummy

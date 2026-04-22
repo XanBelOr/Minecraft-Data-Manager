@@ -1,1 +1,1 @@
-$data modify storage dm:migrate custom_data set from storage dm:db temp."$(id)".custom_data
+$data modify storage dm:migrate custom_data set from storage dm:db entries."$(id)".custom_data

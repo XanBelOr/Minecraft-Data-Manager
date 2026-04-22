@@ -1,1 +1,1 @@
-$data modify storage dm:args uuid set from storage dm:db temp."$(id)".uuid
+$data modify storage dm:args uuid set from storage dm:db entries."$(id)".uuid

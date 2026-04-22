@@ -1,3 +1,2 @@
-# Pool-agnostic: dispatches to temp or perm based on entity's pool tag.
-execute if entity @s[tag=dm.temp] run return run function data_manager:read_temp with storage dm:args
-execute if entity @s[tag=dm.perm] run function data_manager:read_perm with storage dm:args
+# Read full custom_data. Caller sets dm:args.id.
+$data modify storage data:manager custom_data set from storage dm:db entries."$(id)".custom_data

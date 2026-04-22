@@ -1,1 +1,1 @@
-$data remove storage dm:db temp."$(id)"
+$data remove storage dm:db entries."$(id)"
