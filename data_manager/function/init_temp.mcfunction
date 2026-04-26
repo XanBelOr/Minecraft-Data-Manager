@@ -9,8 +9,9 @@ execute if entity @s[tag=dm.perm] run return 0
 
 tag @s add dm.temp
 
-# Temp counter increments; overflow to Integer.MIN_VALUE is fine (still valid compound key)
+# Temp counter increments, or wrap back around to 0
 scoreboard players add .temp_counter dm.global 1
+execute if score .temp_counter dm.global matches ..-1 run scoreboard players set .temp_counter dm.global 0
 scoreboard players operation @s dm.id = .temp_counter dm.global
 
 # Generate UUID for cleanup check
