@@ -21,8 +21,8 @@ Add `data_manager:load` to your pack's load tag.
 ### 2. Choose a pool per entity
 
 Call **once** per entity:
-- `data_manager:init_temp` → short-lived (tagged `dm.temp`, positive ID)
-- `data_manager:init_perm` → long-lived (tagged `dm.perm`, negative ID)
+- `data_manager:init_temp` → temportary (tagged `dm.temp`, positive ID)
+- `data_manager:init_perm` → permanent (tagged `dm.perm`, negative ID)
 
 Both are idempotent. `init_perm` on a `dm.temp`-tagged entity **migrates** its custom_data to a new perm entry. `init_temp` on a `dm.perm`-tagged entity is a no-op (no downgrade).
 
