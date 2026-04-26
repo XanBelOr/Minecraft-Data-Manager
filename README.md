@@ -7,8 +7,8 @@ A lightweight datapack that gives every entity its own persistent custom data, u
 Each entity gets a numeric ID (the `dm.id` scoreboard). That ID maps to a storage compound under `dm:db entries` where your custom data lives. Read and write with simple function calls, no manual UUID handling.
 
 **Two pools, one unified storage:**
-- **Temp pool** — short-lived entities (projectiles, summons). Positive IDs (1, 2, 3...). Auto-cleanup when the entity dies.
-- **Perm pool** — long-lived entities (players, bosses). Negative IDs (-1, -2, -3...). No cleanup, UUID-based name-change recovery.
+- **Temp pool** — short-lived entities (projectiles, summons, most entities). Positive IDs (1, 2, 3...). Auto-cleanup when the entity dies.
+- **Perm pool** — long-lived entities (players, npcs, permanent markers). Negative IDs (-1, -2, -3...). No cleanup, UUID-based name-change recovery.
 
 The pool is encoded in the **sign of the ID**. Both pools use the same `dm:db entries` compound, so **read/write works identically for either** — one function, no dispatcher, no branching.
 
