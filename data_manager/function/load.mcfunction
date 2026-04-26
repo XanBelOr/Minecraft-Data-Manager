@@ -1,17 +1,16 @@
 # Data Manager v3.1 — Unified pool, positive=temp, negative=perm
 scoreboard objectives add dm.id dummy
 scoreboard objectives add dm.global dummy
+scoreboard objectives add dm.left minecraft.custom:minecraft.leave_game
+scoreboard objectives add dm.left_handled dummy
 
-# Unified entry compound + temp cleanup index
 execute unless data storage dm:db entries run data modify storage dm:db entries set value {}
 execute unless data storage dm:db temp_index run data modify storage dm:db temp_index set value []
 
-# Counters: temp goes up (positive), perm goes down (negative)
 execute unless score .temp_counter dm.global = .temp_counter dm.global run scoreboard players set .temp_counter dm.global 0
 execute unless score .perm_counter dm.global = .perm_counter dm.global run scoreboard players set .perm_counter dm.global 0
 execute unless score .tick_index dm.global = .tick_index dm.global run scoreboard players set .tick_index dm.global 0
 
-# UUID utility
 scoreboard objectives add gu.UUID0 dummy
 scoreboard objectives add gu.UUID1 dummy
 scoreboard objectives add gu.UUID2 dummy
