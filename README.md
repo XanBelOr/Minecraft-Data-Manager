@@ -89,7 +89,7 @@ function data_manager:write with storage dm:args
 - Cleanup: tick function checks one entry per tick, removes entries whose entity is gone (score no longer exists in `scoreboard.dat` — works for loaded, unloaded, and dead entities).
 
 ### Perm pool (negative IDs)
-- Best for: players, bosses, unique NPCs
+- Best for: players, unique NPCs, any entity expected to persist
 - ID range: -1 down to `Integer.MIN_VALUE`, no wrap
 - Cleanup: none. Call `clear_perm` manually if needed.
 - Each entry stores the entity's UUID for name-change recovery.
