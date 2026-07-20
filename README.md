@@ -1,10 +1,10 @@
 # Minecraft Data Manager
 
-A datapack that gives every entity its own pocket of storage for whatever custom data you want to keep on it. It's fast (about 1.6x faster than writing NBT directly to a marker, benchmarks below), and you never have to touch a UUID yourself.
+A datapack that gives every entity its own pocket of storage for whatever custom data you want to keep on it. It's fast (1.6x faster than writing NBT directly to a marker, and that's the floor, benchmarks below), and you never have to touch a UUID yourself.
 
 ## Why this exists
 
-Sooner or later every datapack hits the same wall: you want to remember something about a specific entity. A mana value on a player, an owner on a summon, a bounce counter on an arrow. Vanilla gives you a few ways to do this and none of them are great. Scoreboards only hold numbers. Writing NBT onto entities is slow, and you can't even do it to players. Tracking everything by UUID means juggling four ints and a lot of regret.
+Sooner or later every datapack hits the same wall: you want to remember something about a specific entity, and it's more than a single number. A shopkeeper's whole trade list. A player's spell loadout with cooldowns and upgrade levels. A summon that needs to know its owner, its remaining charges, and the item it was created from. If it were just one int you'd slap it on a scoreboard and move on, but this stuff has shape, and vanilla's options for shaped data are all rough. Writing NBT onto entities is slow, and you can't even do it to players. Tracking everything by UUID means juggling four ints and a lot of regret.
 
 This pack takes a simpler road. Every entity gets a plain number, and that number points to a spot in storage where its data lives. You read and write with a couple of function calls and get on with your day.
 
@@ -110,6 +110,8 @@ The benchmark ran 10,000 write plus read cycles (20,000 operations total), wrapp
 So about 38% cheaper per operation and around 62% more throughput.
 
 Why does it win when it runs more commands per call? Because storage keys are basically hashmap lookups with no serialization cost, while entity NBT has to walk the entity's data tree and serialize on every access. More commands, but each one is cheaper, and the total comes out well ahead.
+
+And here's the part the table undersells: that 1.6x is the floor, not the ceiling. Marker NBT gets more expensive as the entity carries more data, because the serialization cost scales with everything on the entity, even when you're only pulling one small path out of it. data_manager doesn't care. An entry with one field and an entry with a hundred cost the same to access. It's O(n) versus O(1), so the more data your entities carry, the wider the gap gets.
 
 ## What the storage looks like
 
